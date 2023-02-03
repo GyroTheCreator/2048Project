@@ -28,10 +28,9 @@ grid_width = 100
 grid_height = 90
 
 colors = {
-    "background": "#311166",
-    "background_ampli": "#563F99",
-    "empty": "#D3FFDA",
-    None: "lightgrey",
+    "background": "#554597",
+    "background_ampli": "#16006A",
+    None: "#4C3E84",
     2: "#F2006B",
     4: "#F20089",
     8: "#E500A4",
@@ -79,57 +78,68 @@ window.config(bg=colors["background"])
 # DESIGN AIDE PAR CARLOS # ★
 ##########################
 
-# FRAME
-top_space_frame = Frame(window, background=colors["background"], height=35, width=400)
-top_frame = Frame(window, background=colors["background"])
-logo_frame = Frame(top_frame, background=colors["background"])
-logo_space_score = Frame(top_frame, background=colors["background"], width=40)
-score_frame = Frame(top_frame, background=colors["background_ampli"])
-space_frame = Frame(top_frame, background=colors["background"], width=10)
-top_score_frame = Frame(top_frame, background=colors["background_ampli"])
-top_bottom_frame = Frame(window, background=colors["background"])
-label_frame = Frame(top_bottom_frame, background=colors["background"])
-button_frame = Frame(top_bottom_frame, background=colors["background"])
+# DESIGN FRAME
+max_space = Frame(window, background=colors["background"], height=35, width=400)
+max_frame = Frame(window, background=colors["background"])
 
-# LABEL
-logo_label = Label(logo_frame, text="2048", font="Arial, 54", fg="white", background=colors["background"])
-slide_label = Label(label_frame, text="Slide the numbers and get 2048 to win!", font="Arial, 12", background=colors["background"], fg="white")
-score_label = Label(top_score_frame, text="          Score         ", fg="white", background=colors["background_ampli"])
-value_score_label = Label(top_score_frame, text=f"         {score}        ", fg="white", background=colors["background_ampli"])
+title_frame = Frame(max_frame, background=colors["background"])
+title_space = Frame(max_frame, background=colors["background"], width=40)
+
+score_frame = Frame(max_frame, background=colors["background_ampli"])
+score_space = Frame(max_frame, background=colors["background"], width=10)
+
+max_score_frame = Frame(max_frame, background=colors["background_ampli"])
+max_bottom_frame = Frame(window, background=colors["background"])
+
+label_frame = Frame(max_bottom_frame, background=colors["background"])
+button_frame = Frame(max_bottom_frame, background=colors["background"])
+
+# DESIGN LABEL
+logo_label = Label(title_frame, text="2048", font="Arial, 54", fg="white", background=colors["background"])
+slide_label = Label(label_frame, text="Slide the numbers to get 8192 in order to win !", font="Arial, 12", background=colors["background"], fg="white")
+
+score_label = Label(max_score_frame, text="          Score         ", fg="white", background=colors["background_ampli"])
+value_score_label = Label(max_score_frame, text=f"         {score}        ", fg="white", background=colors["background_ampli"])
+
 top_label = Label(score_frame, text=f"      Max ★      ", fg="white", background=colors["background_ampli"])
 value_top_label = Label(score_frame, text=f"        {maxscore}         ", fg="white", background=colors["background_ampli"])
 
-# BUTTON
+# DESIGN BUTTON
 new_button = Button(button_frame, text="New game", height=1, width=8)
 
-# PACK
-top_space_frame.pack()
-top_frame.pack()
-logo_frame.pack(side=LEFT)
-logo_space_score.pack(side=LEFT)
+# PACK ALL THIS
+max_space.pack()
+max_frame.pack()
+
+title_frame.pack(side=LEFT)
+title_space.pack(side=LEFT)
+
 score_frame.pack(side=RIGHT)
-space_frame.pack(side=RIGHT)
-top_score_frame.pack(side=RIGHT)
-top_bottom_frame.pack(pady=10)
+score_space.pack(side=RIGHT)
+
+max_score_frame.pack(side=RIGHT)
+max_bottom_frame.pack(pady=10)
+
 score_label.pack(pady=1)
 value_score_label.pack(pady=1)
+
 top_label.pack(pady=1, padx=5)
 value_top_label.pack(pady=1, padx=5)
+
 label_frame.pack(side=LEFT)
 button_frame.pack(side=RIGHT)
+
 logo_label.pack()
 slide_label.pack()
+
 new_button.pack(padx=20)
 
-# ESPACE ENTRE LES DEUX
+# SPACE BETWEEN THE GAME
 between = Frame(window, height=20, background=colors["background"])
 between.pack()
 
-# FRAMES DU BLOCK DU JEU
+# BLOCK FRAME
 alls = Frame(window, height=400, width=415, background=colors["background_ampli"])
-
-
-# PACKS DU BLOCK DU JEU
 alls.pack()
 
 #############
@@ -139,7 +149,7 @@ alls.pack()
 # GRID DISPLAY
 for i in range(len(grid)):
     for j in range(len(grid[i])):
-        grid_values[i][j] = Label(alls,text=grid[i][j], width=8, height=3, borderwidth=1, relief="solid", font=("Trajan Pro", 14), fg="white", bg=colors[grid[i][j]])
+        grid_values[i][j] = Label(alls,text=grid[i][j], width=8, height=3, borderwidth=1, relief="solid", font=("Comic Sans MS", 14), fg="white", bg=colors[grid[i][j]])
         grid_values[i][j].place(x=10 + grid_width * j, y=25 + grid_height * i)
 
 ##############
