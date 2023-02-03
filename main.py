@@ -74,6 +74,21 @@ window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.iconbitmap("media/icon.ico")
 window.config(bg=colors["background"])
 
+#############
+# MAIN CODE #
+#############
+
+# GRID DISPLAY
+def display_grid():
+    global new_button
+
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            grid_values[i][j] = Label(alls, text=grid[i][j], width=8, height=3, borderwidth=1, relief="solid",
+                                      font=("Comic Sans MS", 14), fg="white", bg=colors[grid[i][j]])
+            grid_values[i][j].place(x=10 + grid_width * j, y=25 + grid_height * i)
+    new_button.config(state=DISABLED)
+
 ##########################
 # DESIGN AIDE PAR CARLOS # ★
 ##########################
@@ -105,7 +120,7 @@ top_label = Label(score_frame, text=f"      Max ★      ", fg="white", backgrou
 value_top_label = Label(score_frame, text=f"        {maxscore}         ", fg="white", background=colors["background_ampli"])
 
 # DESIGN BUTTON
-new_button = Button(button_frame, text="New game", height=1, width=8)
+new_button = Button(button_frame, text="New game", height=1, width=8, command=display_grid)
 
 # PACK ALL THIS
 max_space.pack()
@@ -141,16 +156,6 @@ between.pack()
 # BLOCK FRAME
 alls = Frame(window, height=400, width=415, background=colors["background_ampli"])
 alls.pack()
-
-#############
-# MAIN CODE #
-#############
-
-# GRID DISPLAY
-for i in range(len(grid)):
-    for j in range(len(grid[i])):
-        grid_values[i][j] = Label(alls,text=grid[i][j], width=8, height=3, borderwidth=1, relief="solid", font=("Comic Sans MS", 14), fg="white", bg=colors[grid[i][j]])
-        grid_values[i][j].place(x=10 + grid_width * j, y=25 + grid_height * i)
 
 ##############
 # APP LAUNCH #
