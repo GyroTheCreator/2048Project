@@ -21,7 +21,7 @@ import random
 # VARIABLES #
 #############
 
-grid = [[None,None,None,None], [None,None,None,None], [None,None,None,None], [None,None,None,None]]
+grid = [[None,None,None,2], [4,8,16,32], [64,128,256,512], [1024,2048,4096,8192]]
 grid_values = [[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]]
 
 grid_width = 100
@@ -72,7 +72,7 @@ y = (screenheight / 2) - (h / 2)
 window.title("Jeu du 2048")
 window.resizable(False, False)
 window.geometry('%dx%d+%d+%d' % (w, h, x, y))
-window.iconbitmap("icon.ico")
+window.iconbitmap("media/icon.ico")
 window.config(bg=colors["background"])
 
 ##########################
