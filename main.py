@@ -101,7 +101,8 @@ logo_label = Label(title_frame, text="2048", font="Arial, 54", fg="white", backg
 slide_label = Label(label_frame, text="Slide the numbers to get 8192 in order to win !", font="Arial, 12", background=colors["background"], fg="white")
 
 score_label = Label(max_score_frame, text="          Score         ", fg="white", background=colors["background_ampli"])
-value_score_label = Label(max_score_frame, text=f"         {score}        ", fg="white", background=colors["background_ampli"])
+value_score_label = Label(max_score_frame, text=f"         {score}        ", fg="white",
+                          background=colors["background_ampli"])
 
 top_label = Label(score_frame, text=f"      Max ★      ", fg="white", background=colors["background_ampli"])
 value_top_label = Label(score_frame, text=f"        {maxscore}         ", fg="white", background=colors["background_ampli"])
@@ -196,6 +197,7 @@ display_grid()
 # PACK FUNCTION
 def pack(a, b, c, d):
     global score
+    score = 0
     nmove = 0
 
     if c == 0:
@@ -212,17 +214,17 @@ def pack(a, b, c, d):
 
     if a == b:
         a, b, c, d = a+b, c, d, 0
-        value_score_label.config(text=f"{score+random.randint(5,20)}") # Add score in the tab
+        score += random.randint(5,20)
         nmove += 1 # Add +1 to movement list
 
     if b == c:
         b, c, d = b+c, d, 0
-        value_score_label.config(text=f"{score+random.randint(5,20)}") # Add score in the tab
+        score += random.randint(5,20)
         nmove += 1 # Add +1 to movement list
 
     if c == d:
         c, d = c+d, 0
-        value_score_label.config(text=f"{score+random.randint(5,20)}") # Add score in the tab
+        score += random.randint(5,20)
         nmove += 1 # Add +1 to movement list
 
     if right == 0:
@@ -248,10 +250,10 @@ def move_left(event):
 def move_right(event):
     global right
     right = 1
-    grid[0] = pack(grid[0][0], grid[0][1], grid[0][2], grid[0][3])
-    grid[1] = pack(grid[1][0], grid[1][1], grid[1][2], grid[1][3])
-    grid[2] = pack(grid[2][0], grid[2][1], grid[2][2], grid[2][3])
-    grid[3] = pack(grid[3][0], grid[3][1], grid[3][2], grid[3][3])
+    grid[0] = pack(grid[0][3], grid[0][2], grid[0][1], grid[0][0])
+    grid[1] = pack(grid[1][3], grid[1][2], grid[1][1], grid[1][0])
+    grid[2] = pack(grid[2][3], grid[2][2], grid[2][1], grid[2][0])
+    grid[3] = pack(grid[3][3], grid[3][2], grid[3][1], grid[3][0])
     random_spawn()
     display_grid() # Refresh the game
 
@@ -270,10 +272,10 @@ def move_up(event):
 def move_down(event):
     global right
     right = 1
-    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[0][0], grid[1][0], grid[2][0], grid[3][0])
-    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[0][1], grid[1][1], grid[2][1], grid[3][1])
-    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[0][2], grid[1][2], grid[2][2], grid[3][2])
-    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[0][3], grid[1][3], grid[2][3], grid[3][3])
+    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[3][0], grid[2][0], grid[1][0], grid[0][0])
+    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[3][1], grid[2][1], grid[1][1], grid[0][1])
+    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[3][2], grid[2][2], grid[1][2], grid[0][2])
+    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[3][3], grid[2][3], grid[1][3], grid[0][3])
     random_spawn()
     display_grid() # Refresh the game
 
