@@ -89,6 +89,37 @@ def display_grid():
             grid_values[i][j].place(x=10 + grid_width * j, y=25 + grid_height * i)
     new_button.config(state=DISABLED)
 
+# PACK FUNCTION
+def pack(a, b, c, d):
+    nmove = 0
+
+    if a == 0:
+        a, b, c, d = b, c, d, 0
+        nmove += 1
+
+    if b == 0:
+        b, c, d = c, d, 0
+        nmove += 1
+
+    if c == 0:
+        c, d = d, 0
+        nmove += 1
+
+    if a == b:
+        a, b, c, d = a+b, c, d, 0
+        nmove += 1
+
+    if b == c:
+        b, c, d = b+c, d, 0
+        nmove += 1
+
+    if c == d:
+        c, d = c+d, 0
+        nmove += 1
+
+    temp=[a,b,c,d,nmove]
+    return temp
+
 ##########################
 # DESIGN AIDE PAR CARLOS # ★
 ##########################
