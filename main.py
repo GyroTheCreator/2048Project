@@ -21,7 +21,7 @@ import random
 # VARIABLES #
 #############
 
-grid = [[0,0,0,2], [4,8,16,32], [64,128,256,512], [1024,2048,4096,8192]]
+grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,2,2]]
 grid_values = [[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]]
 
 grid_width = 100
@@ -91,34 +91,76 @@ def display_grid():
 
 # PACK FUNCTION
 def pack(a, b, c, d):
+    global score
     nmove = 0
-
-    if a == 0:
-        a, b, c, d = b, c, d, 0
-        nmove += 1
-
-    if b == 0:
-        b, c, d = c, d, 0
-        nmove += 1
 
     if c == 0:
         c, d = d, 0
-        nmove += 1
+        nmove += 1 # Add +1 to movement list
+
+    if b == 0:
+        b, c, d = c, d, 0
+        nmove += 1 # Add +1 to movement list
+
+    if a == 0:
+        a, b, c, d = b, c, d, 0
+        nmove += 1 # Add +1 to movement list
 
     if a == b:
         a, b, c, d = a+b, c, d, 0
-        nmove += 1
+        value_score_label.config(text=f"{score+random.randint(5,20)}") # Add score in the tab
+        nmove += 1 # Add +1 to movement list
 
     if b == c:
         b, c, d = b+c, d, 0
-        nmove += 1
+        value_score_label.config(text=f"{score+random.randint(5,20)}") # Add score in the tab
+        nmove += 1 # Add +1 to movement list
 
     if c == d:
         c, d = c+d, 0
-        nmove += 1
+        value_score_label.config(text=f"{score+random.randint(5,20)}") # Add score in the tab
+        nmove += 1 # Add +1 to movement list
 
-    temp=[a,b,c,d,nmove]
+    temp=[a,b,c,d] # Temporary list for stockage
     return temp
+
+# FUNCTION FOR MOVE LEFT ACTION
+def move_left(event):
+    grid[0] = pack(grid[0][0], grid[0][1], grid[0][2], grid[0][3])
+    grid[1] = pack(grid[1][0], grid[1][1], grid[1][2], grid[1][3])
+    grid[2] = pack(grid[2][0], grid[2][1], grid[2][2], grid[2][3])
+    grid[3] = pack(grid[3][0], grid[3][1], grid[3][2], grid[3][3])
+    display_grid() # Refresh the game
+
+# FUNCTION FOR MOVE RIGHT ACTION
+def move_right(event):
+    grid[0] = pack(grid[0][3], grid[0][2], grid[0][1], grid[0][0])
+    grid[1] = pack(grid[1][3], grid[1][2], grid[1][1], grid[1][0])
+    grid[2] = pack(grid[2][3], grid[2][2], grid[2][1], grid[2][0])
+    grid[3] = pack(grid[3][3], grid[3][2], grid[3][1], grid[3][0])
+    display_grid() # Refresh the game
+
+# FUNCTION FOR MOVE UP ACTION
+def move_up(event):
+    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[0][0], grid[1][0], grid[2][0], grid[3][0])
+    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[0][1], grid[1][1], grid[2][1], grid[3][1])
+    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[0][2], grid[1][2], grid[2][2], grid[3][2])
+    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[0][3], grid[1][3], grid[2][3], grid[3][3])
+    display_grid() # Refresh the game
+
+# FUNCTION FOR MOVE DOWN ACTION
+def move_down(event):
+    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[3][0], grid[2][0], grid[1][0], grid[0][0])
+    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[3][1], grid[2][1], grid[1][1], grid[0][1])
+    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[3][2], grid[2][2], grid[1][2], grid[0][2])
+    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[3][3], grid[2][3], grid[1][3], grid[0][3])
+    display_grid() # Refresh the game
+
+# KEYBINDS
+window.bind("<w>", move_up)
+window.bind("<s>", move_down)
+window.bind("<a>", move_left)
+window.bind("<d>", move_right)
 
 ##########################
 # DESIGN AIDE PAR CARLOS # ★
