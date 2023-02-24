@@ -1,7 +1,7 @@
 """
 Auteur:     Tiago Da Costa Lourenço
 Date:       Février 2023
-Version:    1.0
+Version:    v0.1
 Projet:     Jeu du 2048
 
     Mentions honorables:
@@ -21,7 +21,7 @@ import random
 # VARIABLES #
 #############
 
-grid = [[None,None,None,2], [4,8,16,32], [64,128,256,512], [1024,2048,4096,8192]]
+grid = [[0,0,0,2], [4,8,16,32], [64,128,256,512], [1024,2048,4096,8192]]
 grid_values = [[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]]
 
 grid_width = 100
@@ -30,7 +30,7 @@ grid_height = 90
 colors = {
     "background": "#554597",
     "background_ampli": "#16006A",
-    None: "#4C3E84",
+    0: "#4C3E84",
     2: "#F2006B",
     4: "#F20089",
     8: "#E500A4",
