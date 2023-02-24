@@ -227,12 +227,19 @@ def pack(a, b, c, d):
 # FUNCTION FOR MOVE LEFT ACTION
 
 """def move_left(event):
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            j = pack(grid[i][j], grid[i][j], grid[i][j], grid[i][j])
+    random_spawn()
+    display_grid()"""
+
+def move_left(event):
     grid[0] = pack(grid[0][0], grid[0][1], grid[0][2], grid[0][3])
     grid[1] = pack(grid[1][0], grid[1][1], grid[1][2], grid[1][3])
     grid[2] = pack(grid[2][0], grid[2][1], grid[2][2], grid[2][3])
     grid[3] = pack(grid[3][0], grid[3][1], grid[3][2], grid[3][3])
     random_spawn()
-    display_grid() # Refresh the game"""
+    display_grid() # Refresh the game
 
 # FUNCTION FOR MOVE RIGHT ACTION
 def move_right(event):
