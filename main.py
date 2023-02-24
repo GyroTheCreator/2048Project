@@ -58,8 +58,6 @@ window = Tk()
 w = 500
 h = 630
 
-right = 0
-
 screenwidth = window.winfo_screenwidth()
 screenheight = window.winfo_screenheight()
 
@@ -196,8 +194,6 @@ display_grid()
 
 # PACK FUNCTION
 def pack(a, b, c, d):
-    global score
-    score = 0
     nmove = 0
 
     if c == 0:
@@ -214,42 +210,32 @@ def pack(a, b, c, d):
 
     if a == b:
         a, b, c, d = a+b, c, d, 0
-        score += random.randint(5,20)
         nmove += 1 # Add +1 to movement list
 
     if b == c:
         b, c, d = b+c, d, 0
-        score += random.randint(5,20)
         nmove += 1 # Add +1 to movement list
 
     if c == d:
         c, d = c+d, 0
-        score += random.randint(5,20)
         nmove += 1 # Add +1 to movement list
 
-    if right == 0:
-        temp=[a,b,c,d] # Temporary list for stockage
-        return temp
-    elif right == 1:
-        temp2=[d,c,b,a]
-        return temp2
+    temp=[a,b,c,d] # Temporary list for stockage
+    return temp
 
 
 # FUNCTION FOR MOVE LEFT ACTION
-def move_left(event):
-    global right
-    right = 0
+
+"""def move_left(event):
     grid[0] = pack(grid[0][0], grid[0][1], grid[0][2], grid[0][3])
     grid[1] = pack(grid[1][0], grid[1][1], grid[1][2], grid[1][3])
     grid[2] = pack(grid[2][0], grid[2][1], grid[2][2], grid[2][3])
     grid[3] = pack(grid[3][0], grid[3][1], grid[3][2], grid[3][3])
     random_spawn()
-    display_grid() # Refresh the game
+    display_grid() # Refresh the game"""
 
 # FUNCTION FOR MOVE RIGHT ACTION
 def move_right(event):
-    global right
-    right = 1
     grid[0] = pack(grid[0][3], grid[0][2], grid[0][1], grid[0][0])
     grid[1] = pack(grid[1][3], grid[1][2], grid[1][1], grid[1][0])
     grid[2] = pack(grid[2][3], grid[2][2], grid[2][1], grid[2][0])
@@ -259,8 +245,6 @@ def move_right(event):
 
 # FUNCTION FOR MOVE UP ACTION
 def move_up(event):
-    global right
-    right = 0
     grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[0][0], grid[1][0], grid[2][0], grid[3][0])
     grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[0][1], grid[1][1], grid[2][1], grid[3][1])
     grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[0][2], grid[1][2], grid[2][2], grid[3][2])
@@ -270,8 +254,6 @@ def move_up(event):
 
 # FUNCTION FOR MOVE DOWN ACTION
 def move_down(event):
-    global right
-    right = 1
     grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[3][0], grid[2][0], grid[1][0], grid[0][0])
     grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[3][1], grid[2][1], grid[1][1], grid[0][1])
     grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[3][2], grid[2][2], grid[1][2], grid[0][2])
