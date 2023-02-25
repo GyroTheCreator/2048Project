@@ -220,53 +220,38 @@ def pack(a, b, c, d):
         c, d = c+d, 0
         nmove += 1 # Add +1 to movement list
 
-    temp=[a,b,c,d] # Temporary list for stockage
+    temp = [a, b, c, d]
     return temp
 
 
 # FUNCTION FOR MOVE LEFT ACTION
 
-"""def move_left(event):
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            j = pack(grid[i][j], grid[i][j], grid[i][j], grid[i][j])
-    random_spawn()
-    display_grid()"""
-
 def move_left(event):
-    grid[0] = pack(grid[0][0], grid[0][1], grid[0][2], grid[0][3])
-    grid[1] = pack(grid[1][0], grid[1][1], grid[1][2], grid[1][3])
-    grid[2] = pack(grid[2][0], grid[2][1], grid[2][2], grid[2][3])
-    grid[3] = pack(grid[3][0], grid[3][1], grid[3][2], grid[3][3])
+    for i in range(len(grid)):
+        grid[i] = pack(grid[i][0], grid[i][1], grid[i][2], grid[i][3])
     random_spawn()
     display_grid() # Refresh the game
 
 # FUNCTION FOR MOVE RIGHT ACTION
 def move_right(event):
-    grid[0] = pack(grid[0][3], grid[0][2], grid[0][1], grid[0][0])
-    grid[1] = pack(grid[1][3], grid[1][2], grid[1][1], grid[1][0])
-    grid[2] = pack(grid[2][3], grid[2][2], grid[2][1], grid[2][0])
-    grid[3] = pack(grid[3][3], grid[3][2], grid[3][1], grid[3][0])
+    for i in range(len(grid)):
+        grid[i] = pack(grid[i][3], grid[i][2], grid[i][1], grid[i][0])
     random_spawn()
-    display_grid() # Refresh the game
+    display_grid()
 
 # FUNCTION FOR MOVE UP ACTION
 def move_up(event):
-    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[0][0], grid[1][0], grid[2][0], grid[3][0])
-    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[0][1], grid[1][1], grid[2][1], grid[3][1])
-    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[0][2], grid[1][2], grid[2][2], grid[3][2])
-    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[0][3], grid[1][3], grid[2][3], grid[3][3])
+    for i in range(len(grid)):
+        grid[i] = pack(grid[0][i], grid[1][i], grid[2][i], grid[3][i])
     random_spawn()
-    display_grid() # Refresh the game
+    display_grid()
 
 # FUNCTION FOR MOVE DOWN ACTION
 def move_down(event):
-    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[3][0], grid[2][0], grid[1][0], grid[0][0])
-    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[3][1], grid[2][1], grid[1][1], grid[0][1])
-    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[3][2], grid[2][2], grid[1][2], grid[0][2])
-    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[3][3], grid[2][3], grid[1][3], grid[0][3])
+    for i in range(len(grid)):
+        grid[i] = pack(grid[3][i], grid[2][i], grid[1][i], grid[0][i])
     random_spawn()
-    display_grid() # Refresh the game
+    display_grid()
 
 # KEYBINDS
 window.bind("<w>", move_up)
@@ -279,4 +264,5 @@ window.bind("<d>", move_right)
 ##############
 
 if __name__ == '__main__':
+    print("Application lancée avec succès!")
     window.mainloop()
