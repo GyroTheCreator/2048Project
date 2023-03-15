@@ -96,7 +96,7 @@ button_frame = Frame(max_bottom_frame, background=colors["background"])
 
 # DESIGN LABEL
 logo_label = Label(title_frame, text="2048", font="Arial, 54", fg="white", background=colors["background"])
-slide_label = Label(label_frame, text="Slide the numbers to get 8192 in order to win !", font="Arial, 12", background=colors["background"], fg="white")
+slide_label = Label(label_frame, text="Slide the grid to get 8192 in order to win !", font="Arial, 12", background=colors["background"], fg="white")
 
 score_label = Label(max_score_frame, text="          Score         ", fg="white", background=colors["background_ampli"])
 value_score_label = Label(max_score_frame, text=f"         {score}        ", fg="white",
@@ -166,29 +166,11 @@ def new_game():
             [0,0,0,0],
             [0,0,0,0]]
 
-    [random_spawn() for _ in range(2)]
+    [rand_om() for _ in range(2)]
     display_grid()
 
 new_button = Button(button_frame, text="New game", height=1, width=8, command=new_game)
 new_button.pack(padx=20)
-
-def random_spawn():
-    global grid, random_caseh, random,casew
-
-    random.caseh = random.randint(0,3)
-    random.casew = random.randint(0,3)
-
-    if grid[random.caseh][random.casew] != 0:
-        while grid[random.caseh][random.casew] > 0:
-            random.caseh = random.randint(0, 3)
-            random.casew = random.randint(0, 3)
-        else:
-            grid[random.caseh][random.casew] = 2
-    else:
-        grid[random.caseh][random.casew] = 2
-
-[random_spawn() for _ in range(2)]
-display_grid()
 
 #[random_spawn() for _ in range(2)]
 
@@ -220,45 +202,85 @@ def pack(a, b, c, d):
         c, d = c+d, 0
         nmove += 1 # Add +1 to movement list
 
-    temp=[a,b,c,d] # Temporary list for stockage
+    temp = [a, b, c, d]
     return temp
 
 
 # FUNCTION FOR MOVE LEFT ACTION
+
+def rand_om():
+    randomgrid = random.randint(0, 3)
+    randomgrid2 = random.randint(0, 3)
+
+    while grid[randomgrid][randomgrid2] != 0:
+          randomgrid = random.randint(0, 3)
+          randomgrid2 = random.randint(0, 3)
+          if grid[randomgrid][randomgrid2] == 0:
+              grid[randomgrid][randomgrid2] = 2
+              break
+    else:
+        grid[randomgrid][randomgrid2] = 2
+    display_grid()
 def move_left(event):
-    grid[0] = pack(grid[0][0], grid[0][1], grid[0][2], grid[0][3])
-    grid[1] = pack(grid[1][0], grid[1][1], grid[1][2], grid[1][3])
-    grid[2] = pack(grid[2][0], grid[2][1], grid[2][2], grid[2][3])
-    grid[3] = pack(grid[3][0], grid[3][1], grid[3][2], grid[3][3])
+    for ligne in range(len(grid)):
+        [grid[ligne][0], grid[ligne][1], grid[ligne][2], grid[ligne][3]]= pack(grid[ligne][0],grid[ligne][1],grid[ligne][2],grid[ligne][3])
+    rand_om()
+    display_grid()
+
+
+#Déplacer les chiffres à droite
+def move_right(event):
+    for ligne in range(4):
+        [grid[ligne][3], grid[ligne][2], grid[ligne][1], grid[ligne][0]] = pack(grid[ligne][3],
+        grid[ligne][2],grid[ligne][1],grid[ligne][0])
+    rand_om()
+    display_grid()
+
+
+#Déplacer les chiffres en haut
+def move_up(event):
+    for ligne in range(4):
+        [grid[0][ligne], grid[1][ligne], grid[2][ligne], grid[3][ligne]] = pack(grid[0][ligne],
+        grid[1][ligne],grid[2][ligne],grid[3][ligne])
+    rand_om()
+    display_grid()
+
+
+#Déplacer les chiffres en bas
+def move_down(event):
+    for ligne in range(4):
+        [grid[3][ligne], grid[2][ligne], grid[1][ligne], grid[0][ligne]] = pack(grid[3][ligne],
+        grid[2][ligne],grid[1][ligne],grid[0][ligne])
+    rand_om()
+    display_grid()
+
+"""
+def move_left(event):
+    for i in range(len(grid)):
+        grid[i] = pack(grid[i][0], grid[i][1], grid[i][2], grid[i][3])
     random_spawn()
     display_grid() # Refresh the game
 
 # FUNCTION FOR MOVE RIGHT ACTION
 def move_right(event):
-    grid[0] = pack(grid[0][3], grid[0][2], grid[0][1], grid[0][0])
-    grid[1] = pack(grid[1][3], grid[1][2], grid[1][1], grid[1][0])
-    grid[2] = pack(grid[2][3], grid[2][2], grid[2][1], grid[2][0])
-    grid[3] = pack(grid[3][3], grid[3][2], grid[3][1], grid[3][0])
+    for i in range(len(grid)):
+        grid[i] = pack(grid[i][3], grid[i][2], grid[i][1], grid[i][0])
     random_spawn()
-    display_grid() # Refresh the game
+    display_grid()
 
 # FUNCTION FOR MOVE UP ACTION
 def move_up(event):
-    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[0][0], grid[1][0], grid[2][0], grid[3][0])
-    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[0][1], grid[1][1], grid[2][1], grid[3][1])
-    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[0][2], grid[1][2], grid[2][2], grid[3][2])
-    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[0][3], grid[1][3], grid[2][3], grid[3][3])
+    for i in range(len(grid)):
+        grid[i] = pack(grid[0][i], grid[1][i], grid[2][i], grid[3][i])
     random_spawn()
-    display_grid() # Refresh the game
+    display_grid()
 
 # FUNCTION FOR MOVE DOWN ACTION
 def move_down(event):
-    grid[0][0],grid[1][0],grid[2][0],grid[3][0] = pack(grid[3][0], grid[2][0], grid[1][0], grid[0][0])
-    grid[0][1], grid[1][1], grid[2][1], grid[3][1] = pack(grid[3][1], grid[2][1], grid[1][1], grid[0][1])
-    grid[0][2], grid[1][2], grid[2][2], grid[3][2] = pack(grid[3][2], grid[2][2], grid[1][2], grid[0][2])
-    grid[0][3], grid[1][3], grid[2][3], grid[3][3] = pack(grid[3][3], grid[2][3], grid[1][3], grid[0][3])
+    for i in range(len(grid)):
+        grid[i] = pack(grid[3][i], grid[2][i], grid[1][i], grid[0][i])
     random_spawn()
-    display_grid() # Refresh the game
+    display_grid()"""
 
 # KEYBINDS
 window.bind("<w>", move_up)
@@ -271,4 +293,5 @@ window.bind("<d>", move_right)
 ##############
 
 if __name__ == '__main__':
+    print("Application lancée avec succès!")
     window.mainloop()
