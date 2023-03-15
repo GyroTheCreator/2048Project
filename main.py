@@ -48,6 +48,8 @@ colors = {
 
 maxscore = 0
 score = 0
+chance = 0.80
+is2048 = False
 
 ###################
 # WINDOW CREATION #
@@ -176,29 +178,30 @@ new_button.pack(padx=20)
 
 # PACK FUNCTION
 def pack(a, b, c, d):
+    global nmove
     nmove = 0
 
-    if c == 0:
+    if c == 0 and d > 0:
         c, d = d, 0
         nmove += 1 # Add +1 to movement list
 
-    if b == 0:
+    if b == 0 and c > 0:
         b, c, d = c, d, 0
         nmove += 1 # Add +1 to movement list
 
-    if a == 0:
+    if a == 0 and b > 0:
         a, b, c, d = b, c, d, 0
         nmove += 1 # Add +1 to movement list
 
-    if a == b:
+    if a == b and b > 0:
         a, b, c, d = a+b, c, d, 0
         nmove += 1 # Add +1 to movement list
 
-    if b == c:
+    if b == c and c > 0:
         b, c, d = b+c, d, 0
         nmove += 1 # Add +1 to movement list
 
-    if c == d:
+    if c == d and d > 0:
         c, d = c+d, 0
         nmove += 1 # Add +1 to movement list
 
@@ -216,42 +219,63 @@ def rand_om():
           randomgrid = random.randint(0, 3)
           randomgrid2 = random.randint(0, 3)
           if grid[randomgrid][randomgrid2] == 0:
-              grid[randomgrid][randomgrid2] = 2
+              if random.random() < chance:
+                  grid[randomgrid][randomgrid2] = 2
+              else:
+                  grid[randomgrid][randomgrid2] = 4
               break
     else:
-        grid[randomgrid][randomgrid2] = 2
+        if random.random() < chance:
+            grid[randomgrid][randomgrid2] = 2
+        else:
+            grid[randomgrid][randomgrid2] = 4
     display_grid()
+
+new_game() # Lance une partie automatiquement
+
 def move_left(event):
+    tempmove = 0
     for ligne in range(len(grid)):
         [grid[ligne][0], grid[ligne][1], grid[ligne][2], grid[ligne][3]]= pack(grid[ligne][0],grid[ligne][1],grid[ligne][2],grid[ligne][3])
-    rand_om()
+        tempmove += nmove
+    if tempmove != 0:
+        rand_om()
     display_grid()
 
 
 #Déplacer les chiffres à droite
 def move_right(event):
+    tempmove = 0
     for ligne in range(4):
         [grid[ligne][3], grid[ligne][2], grid[ligne][1], grid[ligne][0]] = pack(grid[ligne][3],
         grid[ligne][2],grid[ligne][1],grid[ligne][0])
-    rand_om()
+        tempmove += nmove
+    if tempmove != 0:
+        rand_om()
     display_grid()
 
 
 #Déplacer les chiffres en haut
 def move_up(event):
+    tempmove = 0
     for ligne in range(4):
         [grid[0][ligne], grid[1][ligne], grid[2][ligne], grid[3][ligne]] = pack(grid[0][ligne],
         grid[1][ligne],grid[2][ligne],grid[3][ligne])
-    rand_om()
+        tempmove += nmove
+    if tempmove != 0:
+        rand_om()
     display_grid()
 
 
 #Déplacer les chiffres en bas
 def move_down(event):
+    tempmove = 0
     for ligne in range(4):
         [grid[3][ligne], grid[2][ligne], grid[1][ligne], grid[0][ligne]] = pack(grid[3][ligne],
         grid[2][ligne],grid[1][ligne],grid[0][ligne])
-    rand_om()
+        tempmove += nmove
+    if tempmove != 0:
+        rand_om()
     display_grid()
 
 """
