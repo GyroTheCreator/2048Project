@@ -15,7 +15,8 @@ Projet:     Jeu du 2048
 
 from tkinter import *
 import random
-# from tkinter import messagebox
+from tkinter import messagebox
+import copy
 
 #############
 # VARIABLES #
@@ -163,6 +164,9 @@ def display_grid():
 
 def new_game():
     global grid
+    global score
+    score = 0
+    value_score_label.config(text="0")
     grid = [[0,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
@@ -178,6 +182,9 @@ new_button.pack(padx=20)
 
 # PACK FUNCTION
 def pack(a, b, c, d):
+    global maxscore
+    global maxscore_file
+    global score
     global nmove
     nmove = 0
 
@@ -196,20 +203,54 @@ def pack(a, b, c, d):
     if a == b and b > 0:
         a, b, c, d = a+b, c, d, 0
         nmove += 1 # Add +1 to movement list
+        score = score + a
 
     if b == c and c > 0:
         b, c, d = b+c, d, 0
         nmove += 1 # Add +1 to movement list
+        score = score + b
 
     if c == d and d > 0:
         c, d = c+d, 0
         nmove += 1 # Add +1 to movement list
+        score = score + c
+
+    value_score_label.config(text=score)
 
     temp = [a, b, c, d]
     return temp
 
-
 # FUNCTION FOR MOVE LEFT ACTION
+
+# Loose function that copy the grid and check all the movements to see if there is a possible move if not, the player loose
+def loose():
+    global grid
+    global nmove
+    tempnmove = 0
+    tempgrid = copy.deepcopy(grid)
+
+    for ligne in range(len(tempgrid)):
+        [tempgrid[ligne][0], tempgrid[ligne][1], tempgrid[ligne][2], tempgrid[ligne][3]]= pack(tempgrid[ligne][0],tempgrid[ligne][1],tempgrid[ligne][2],tempgrid[ligne][3])
+        tempnmove += nmove
+
+    for ligne in range(len(tempgrid)):
+        [tempgrid[ligne][3], tempgrid[ligne][2], tempgrid[ligne][1], tempgrid[ligne][0]] = pack(tempgrid[ligne][3],
+        tempgrid[ligne][2],tempgrid[ligne][1],tempgrid[ligne][0])
+        tempnmove += nmove
+
+    for ligne in range(len(tempgrid)):
+        [tempgrid[0][ligne], tempgrid[1][ligne], tempgrid[2][ligne], tempgrid[3][ligne]] = pack(tempgrid[0][ligne],
+        tempgrid[1][ligne],tempgrid[2][ligne],tempgrid[3][ligne])
+        tempnmove += nmove
+
+    for ligne in range(len(tempgrid)):
+        [tempgrid[3][ligne], tempgrid[2][ligne], tempgrid[1][ligne], tempgrid[0][ligne]] = pack(tempgrid[3][ligne],
+        tempgrid[2][ligne],tempgrid[1][ligne],tempgrid[0][ligne])
+        tempnmove += nmove
+
+    if tempnmove == 0:
+        messagebox.showinfo("2048", "Vous avez perdu!")
+        # new_game()
 
 def rand_om():
     randomgrid = random.randint(0, 3)
@@ -241,70 +282,45 @@ def move_left(event):
     if tempmove != 0:
         rand_om()
     display_grid()
-
+    loose()
 
 #Déplacer les chiffres à droite
 def move_right(event):
     tempmove = 0
-    for ligne in range(4):
+    for ligne in range(len(grid)):
         [grid[ligne][3], grid[ligne][2], grid[ligne][1], grid[ligne][0]] = pack(grid[ligne][3],
         grid[ligne][2],grid[ligne][1],grid[ligne][0])
         tempmove += nmove
     if tempmove != 0:
         rand_om()
     display_grid()
+    loose()
 
 
 #Déplacer les chiffres en haut
 def move_up(event):
     tempmove = 0
-    for ligne in range(4):
+    for ligne in range(len(grid)):
         [grid[0][ligne], grid[1][ligne], grid[2][ligne], grid[3][ligne]] = pack(grid[0][ligne],
         grid[1][ligne],grid[2][ligne],grid[3][ligne])
         tempmove += nmove
     if tempmove != 0:
         rand_om()
     display_grid()
+    loose()
 
 
 #Déplacer les chiffres en bas
 def move_down(event):
     tempmove = 0
-    for ligne in range(4):
+    for ligne in range(len(grid)):
         [grid[3][ligne], grid[2][ligne], grid[1][ligne], grid[0][ligne]] = pack(grid[3][ligne],
         grid[2][ligne],grid[1][ligne],grid[0][ligne])
         tempmove += nmove
     if tempmove != 0:
         rand_om()
     display_grid()
-
-"""
-def move_left(event):
-    for i in range(len(grid)):
-        grid[i] = pack(grid[i][0], grid[i][1], grid[i][2], grid[i][3])
-    random_spawn()
-    display_grid() # Refresh the game
-
-# FUNCTION FOR MOVE RIGHT ACTION
-def move_right(event):
-    for i in range(len(grid)):
-        grid[i] = pack(grid[i][3], grid[i][2], grid[i][1], grid[i][0])
-    random_spawn()
-    display_grid()
-
-# FUNCTION FOR MOVE UP ACTION
-def move_up(event):
-    for i in range(len(grid)):
-        grid[i] = pack(grid[0][i], grid[1][i], grid[2][i], grid[3][i])
-    random_spawn()
-    display_grid()
-
-# FUNCTION FOR MOVE DOWN ACTION
-def move_down(event):
-    for i in range(len(grid)):
-        grid[i] = pack(grid[3][i], grid[2][i], grid[1][i], grid[0][i])
-    random_spawn()
-    display_grid()"""
+    loose()
 
 # KEYBINDS
 window.bind("<w>", move_up)
